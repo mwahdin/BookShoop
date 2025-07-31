@@ -56,5 +56,10 @@ public class GlobalExceptionHandler {
                 .field(messageSourceAccessor.getMessage(ruleException.getMessage()))
                 .build();
     }
-
+    private ExceptionResponse BookAlreadyExistsExceptionToExceptionResponse(ExceptionResponse exceptionResponse){
+        return ExceptionResponse.builder()
+                .message(messageSourceAccessor.getMessage(exceptionResponse.getMessage()))
+                .field(messageSourceAccessor.getMessage(exceptionResponse.getField()))
+                .build();
+    }
 }
