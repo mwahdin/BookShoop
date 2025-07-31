@@ -30,4 +30,9 @@ public class BookController {
        return ResponseEntity.ok(bookService.findAll(pageable));
     }
 
+    @GetMapping("/{name}")
+    public ResponseEntity<BookResponse> findByName(@PathVariable String name){
+        return ResponseEntity.ok(bookService.findByName(name));
+    }
+
 }

@@ -39,6 +39,11 @@ public class BookServiceImpl implements BookService {
                 );
     }
 
+    @Override
+    public BookResponse findByName(String name) {
+        return null;
+    }
+
     private Book createBook(BookRequest bookRequest){
        return Book.builder()
                 .name(bookRequest.getName())
