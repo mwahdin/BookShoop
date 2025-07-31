@@ -56,4 +56,5 @@ public class GlobalExceptionHandler {
                 .field(messageSourceAccessor.getMessage(ruleException.getMessage()))
                 .build();
     }
+
 }
