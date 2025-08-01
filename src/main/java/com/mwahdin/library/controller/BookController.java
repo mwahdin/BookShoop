@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/book")
 public class BookController {
@@ -31,8 +33,18 @@ public class BookController {
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<BookResponse> findByName(@PathVariable String name){
+    public ResponseEntity<List<BookResponse>> findByName(@PathVariable String name){
         return ResponseEntity.ok(bookService.findByName(name));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BookResponse> updateBook(@PathVariable Long id, @RequestBody @Valid BookRequest bookRequest){
+        return ResponseEntity.ok(bookService.updateBook(id, bookRequest));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BookResponse> deleteById (@PathVariable long id){
+        return ResponseEntity.ok(bookService.deleteById(id));
     }
 
 }
