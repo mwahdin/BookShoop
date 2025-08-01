@@ -1,9 +1,6 @@
 package com.mwahdin.library.controller;
 
 import com.mwahdin.library.dto.request.ExceptionResponse;
-import com.mwahdin.library.exception.BookAlreadyExistsException;
-import com.mwahdin.library.exception.BookNotFoundException;
-import com.mwahdin.library.exception.BookValidationException;
 import com.mwahdin.library.exception.RuleException;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +22,14 @@ public class GlobalExceptionHandler {
 
     public GlobalExceptionHandler(MessageSourceAccessor messageSourceAccessor) {
         this.messageSourceAccessor = messageSourceAccessor ;
+    }
+
+
+    @ExceptionHandler(RuleException.class)
+    public ResponseEntity<List<ExceptionResponse>> handleRuleException (RuleException ruleException){
+
+        return ResponseEntity.status(400)
+                .body(Collections.singletonList(ruleExceptionToExceptionResponse(ruleException)));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -57,43 +62,3 @@ public class GlobalExceptionHandler {
                 .field(messageSourceAccessor.getMessage(ruleException.getMessage()))
                 .build();
     }
-
-    @ExceptionHandler(BookNotFoundException.class)
-    public ResponseEntity<List<ExceptionResponse>> handleBookNotFoundException (BookNotFoundException bookNotFoundException){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(Collections.singletonList(bookNotFoundExceptionToExceptionResponse(bookNotFoundException)));
-    }
-
-    private ExceptionResponse bookNotFoundExceptionToExceptionResponse (BookNotFoundException bookNotFoundException){
-        return ExceptionResponse.builder()
-                .message(messageSourceAccessor.getMessage(bookNotFoundException.getMessage()))
-                .field(messageSourceAccessor.getMessage(bookNotFoundException.getMessage()))
-                .build();
-    }
-
-    @ExceptionHandler(BookAlreadyExistsException.class)
-    public ResponseEntity<List<ExceptionResponse>> handleBookAlreadyExistsException (BookAlreadyExistsException bookAlreadyExistsException){
-        return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(Collections.singletonList(bookAlreadyExistsExceptionToExceptionResponse(bookAlreadyExistsException)));
-    }
-    private ExceptionResponse bookAlreadyExistsExceptionToExceptionResponse(BookAlreadyExistsException bookAlreadyExistsException){
-        return ExceptionResponse.builder()
-                .message(messageSourceAccessor.getMessage(bookAlreadyExistsException.getMessage()))
-                .field(messageSourceAccessor.getMessage(bookAlreadyExistsException.getMessage()))
-                .build();
-    }
-
-    @ExceptionHandler(BookValidationException.class)
-    public ResponseEntity<List<ExceptionResponse>> handleBookValidationException(BookValidationException bookValidationException){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Collections.singletonList(bookValidationExceptionToExceptionResponse(bookValidationException)));
-    }
-    private ExceptionResponse bookValidationExceptionToExceptionResponse (BookValidationException bookValidationException){
-        return ExceptionResponse.builder()
-                .message(messageSourceAccessor.getMessage(bookValidationException.getMessage()))
-                .field(messageSourceAccessor.getMessage(bookValidationException.getMessage()))
-                .build();
-    }
-
-
-}
