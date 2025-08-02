@@ -44,7 +44,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookResponse> findByName(String name) {
-        return bookRepository.findByTitleContaining(name).stream().map(Book->BookResponse.builder()
+        return bookRepository.findByNameContains(name)
+                .stream().map(Book->BookResponse
+                .builder()
                 .name(Book.getName())
                 .price(Book.getPrice())
                 .build()
@@ -74,6 +76,13 @@ public class BookServiceImpl implements BookService {
         BookResponse response = toBookResponse(book);
         bookRepository.deleteById(id);
         return response;
+    }
+
+    @Override
+    public BookResponse findById(long id) {
+      Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException("BOOK.IS.NOT.FOUND"));
+        return toBookResponse(book);
     }
 
     private BookResponse toBookResponse (Book book){

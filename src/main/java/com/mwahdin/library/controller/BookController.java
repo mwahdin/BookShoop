@@ -32,7 +32,7 @@ public class BookController {
        return ResponseEntity.ok(bookService.findAll(pageable));
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<List<BookResponse>> findByName(@PathVariable String name){
         return ResponseEntity.ok(bookService.findByName(name));
     }
@@ -45,6 +45,10 @@ public class BookController {
     @DeleteMapping("/{id}")
     public ResponseEntity<BookResponse> deleteById (@PathVariable long id){
         return ResponseEntity.ok(bookService.deleteById(id));
+    }
+    @GetMapping("/id/{id}")
+    public ResponseEntity<BookResponse> findById(@PathVariable long id){
+        return ResponseEntity.ok(bookService.findById(id));
     }
 
 }
