@@ -36,7 +36,6 @@ public class BookServiceImpl implements BookService {
     public Page<BookResponse> findAll(Pageable pageable) {
         return bookRepository.findAll(pageable)
                 .map(Book -> BookResponse.builder()
-                        .id(Book.getId())
                         .name(Book.getName())
                         .price(Book.getPrice())
                         .build()
@@ -46,7 +45,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookResponse> findByName(String name) {
         return bookRepository.findByTitleContaining(name).stream().map(Book->BookResponse.builder()
-                .id(Book.getId())
                 .name(Book.getName())
                 .price(Book.getPrice())
                 .build()
@@ -54,7 +52,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookResponse updateBook(Long id, BookRequest bookRequest) {
+    public BookResponse updateBook(long id, BookRequest bookRequest) {
        if(bookRequest.getName() == null || bookRequest.getName().trim().isEmpty()){
            throw new BookValidationException("BOOK.NAME.CANNOT.BE.EMPTY");
        }

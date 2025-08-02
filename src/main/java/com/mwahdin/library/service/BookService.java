@@ -12,6 +12,6 @@ public interface BookService {
     BookResponse saveBook(BookRequest book);
     Page<BookResponse> findAll(Pageable pageable);
     List<BookResponse> findByName(String name);
-    BookResponse updateBook(Long id, BookRequest bookRequest);
+    BookResponse updateBook(long id, BookRequest bookRequest);
     BookResponse deleteById(long id);
 }

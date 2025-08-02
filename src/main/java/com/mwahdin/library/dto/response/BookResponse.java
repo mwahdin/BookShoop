@@ -9,7 +9,6 @@ import lombok.*;
 @NoArgsConstructor(force = true)
 public class BookResponse {
 
-    private final Long id;
     private final String name;
     private final long price;
 }
