@@ -10,7 +10,9 @@ import com.mwahdin.library.repository.BookRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -70,19 +72,22 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookResponse deleteById (long id) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new BookNotFoundException("BOOK.IS.NOT.FOUND"));
-        BookResponse response = toBookResponse(book);
+    public BookResponse deleteById(long id) {
+        BookResponse response = toBookResponse(bookFindById(id));
         bookRepository.deleteById(id);
         return response;
     }
 
     @Override
     public BookResponse findById(long id) {
-      Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new BookNotFoundException("BOOK.IS.NOT.FOUND"));
-        return toBookResponse(book);
+        return toBookResponse(bookFindById(id));
+    }
+
+    @Override
+    @Transactional
+    public void softDelete(long id) {
+        Book findById = bookFindById(id);
+        findById.setDeleted(LocalDateTime.now());
     }
 
     private BookResponse toBookResponse (Book book){
@@ -97,6 +102,10 @@ public class BookServiceImpl implements BookService {
                 .name(bookRequest.getName())
                 .price(bookRequest.getPrice())
                 .build();
+    }
+    private Book bookFindById(long id){
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException("BOOK.IS.NOT.FOUND"));
     }
 
 }

@@ -23,5 +23,6 @@ public class baseEntity {
 
     @UpdateTimestamp
     private LocalDateTime lastModificationDate;
+    private LocalDateTime deleted;
 
 }

@@ -15,4 +15,5 @@ public interface BookService {
     BookResponse updateBook(long id, BookRequest bookRequest);
     BookResponse deleteById(long id);
     BookResponse findById (long id);
+    void softDelete(long id);
 }
