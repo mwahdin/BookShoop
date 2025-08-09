@@ -1,4 +1,4 @@
-package com.mwahdin.library.service;
+package com.mwahdin.library.service.book;
 
 import com.mwahdin.library.dto.request.BookRequest;
 import com.mwahdin.library.dto.response.BookResponse;

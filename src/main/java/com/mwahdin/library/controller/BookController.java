@@ -2,7 +2,7 @@ package com.mwahdin.library.controller;
 
 import com.mwahdin.library.dto.request.BookRequest;
 import com.mwahdin.library.dto.response.BookResponse;
-import com.mwahdin.library.service.BookService;
+import com.mwahdin.library.service.book.BookService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +49,10 @@ public class BookController {
     @GetMapping("/id/{id}")
     public ResponseEntity<BookResponse> findById(@PathVariable long id){
         return ResponseEntity.ok(bookService.findById(id));
+    }
+    @DeleteMapping("/delete/user/{id}")
+    public void softDelete(@PathVariable long id){
+        bookService.softDelete(id);
     }
 
 }

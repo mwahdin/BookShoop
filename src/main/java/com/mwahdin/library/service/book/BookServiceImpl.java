@@ -1,4 +1,4 @@
-package com.mwahdin.library.service;
+package com.mwahdin.library.service.book;
 
 import com.mwahdin.library.dto.request.BookRequest;
 import com.mwahdin.library.dto.response.BookResponse;
@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -86,8 +85,9 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void softDelete(long id) {
-        Book findById = bookFindById(id);
-        findById.setDeleted(LocalDateTime.now());
+
+        Book book = bookFindById(id);
+        bookRepository.delete(book);
     }
 
     private BookResponse toBookResponse (Book book){
